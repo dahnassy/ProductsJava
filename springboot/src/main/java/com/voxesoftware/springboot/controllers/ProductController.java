@@ -20,7 +20,7 @@ import com.voxesoftware.springboot.dtos.ProductRecordDto;
 import com.voxesoftware.springboot.models.ProductModel;
 import com.voxesoftware.springboot.repositories.ProductRepository;
 
-//import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,7 +29,7 @@ public class ProductController {
     ProductRepository productRepository;
     //cadastrar produtos
     @PostMapping("/products")
-    //@Operation(summary = "Criar Produtos")
+    @Operation(summary = "Criar Produtos")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto){
         var productModel = new ProductModel();
         BeanUtils.copyProperties(productRecordDto, productModel);
