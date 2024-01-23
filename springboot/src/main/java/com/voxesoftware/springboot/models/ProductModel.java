@@ -17,7 +17,7 @@ public class ProductModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idProduct;
     private Number numeroControle;
     private String dataCadastro;
