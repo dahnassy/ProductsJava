@@ -33,7 +33,7 @@ public class ProductController {
 
     //cadastrar produtos
     @PostMapping("/products")
-    @Operation(summary = "Criar Produtos")
+    @Operation(summary = "Cadastra um produto")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto){
 
         ResponseEntity<List<ProductModel>> products = getAllProducts();
@@ -70,12 +70,14 @@ public class ProductController {
 
     //pegar todos os produtos
     @GetMapping("/products")
+    @Operation(summary = "Tras todos os pedidos")
     public ResponseEntity<List<ProductModel>> getAllProducts(){
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.findAll());
     }
 
     //pegar produto por id
     @GetMapping("/products/{id}")
+    @Operation(summary = "Tras os pedidos pelo id")
     public ResponseEntity<Object> getOneProduct(@PathVariable(value="id") UUID id){
         Optional<ProductModel> product0 = productRepository.findById(id);
         if(product0.isEmpty()) {
@@ -83,6 +85,7 @@ public class ProductController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(product0.get());
     }
+
 
     //atualizar produto
     @PutMapping("/products/{id}")
