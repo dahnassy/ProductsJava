@@ -1,8 +1,7 @@
 package com.voxesoftware.springboot.controllers;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +26,45 @@ import jakarta.validation.Valid;
 public class ProductController {
     @Autowired
     ProductRepository productRepository;
+    private ProductModel productModel;
+
+    Date now = new Date(System.currentTimeMillis());
+
+
     //cadastrar produtos
     @PostMapping("/products")
     @Operation(summary = "Criar Produtos")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto){
+
+        ResponseEntity<List<ProductModel>> products = getAllProducts();
         var productModel = new ProductModel();
+
+        //passando propriedades de validação do dto para o model
         BeanUtils.copyProperties(productRecordDto, productModel);
+
+        //verificando condições e aplicando regras
+
+        for(var product : products.getBody()) {
+            if (Objects.equals(product.getNumeroControle(), productModel.getNumeroControle())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body((ProductModel) productRepository.findAll());
+            }
+        }
+
+        if(productModel.getDataCadastro() == null){
+            productModel.setDataCadastro(this.now.toString());
+        }
+
+        if(productModel.getQuantidade() == null || productModel.getQuantidade() == 0){
+            productModel.setQuantidade(1);
+        }
+        if(productModel.getQuantidade() >= 10){
+            BigDecimal valor = productModel.getValor().multiply(new BigDecimal(0.1));
+            productModel.setValor(productModel.getValor().subtract(valor));
+        }
+        else if(productModel.getQuantidade() > 5){
+            BigDecimal valor = productModel.getValor().multiply(new BigDecimal(0.05));
+            productModel.setValor(productModel.getValor().subtract(valor));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(productRepository.save(productModel));
     }
 

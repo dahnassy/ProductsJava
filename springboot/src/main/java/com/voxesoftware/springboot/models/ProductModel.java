@@ -19,11 +19,13 @@ public class ProductModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idProduct;
-    private Number numeroControle;
+
+    private Integer idCliente;
+    private Integer numeroControle;
     private String dataCadastro;
     private String nome;
     private BigDecimal valor;
-    private Number quantidade;
+    private Integer quantidade;
 
     public UUID getIdProduct() {
         return idProduct;
@@ -32,10 +34,10 @@ public class ProductModel implements Serializable {
         this.idProduct = idProduct;
     }
 
-    public Number getNumeroControle() {
+    public Integer getNumeroControle() {
         return numeroControle;
     }
-    public void setNumeroControle(Number numeroControle) {
+    public void setNumeroControle(Integer numeroControle) {
         this.numeroControle = numeroControle;
     }
     public String getNome() {
@@ -60,12 +62,20 @@ public class ProductModel implements Serializable {
         this.dataCadastro = dataCadastro;
     }
 
-    public Number getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Number quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 }
 
